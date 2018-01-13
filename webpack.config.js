@@ -23,6 +23,10 @@ module.exports = {
     ]
   },
   plugins: [new HtmlWebpackPlugin({
-    template: './app/index.html'
+    template: './app/index.html',
+    // https://github.com/kangax/html-minifier#options-quick-reference
+    minify: {
+      collapseWhitespace: true
+    }
   })]
 };
