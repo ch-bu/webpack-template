@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: './app/js/index.js',
@@ -23,7 +22,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        // include: path.resolve(__dirname, 'app/scss'),
+        include: path.resolve(__dirname, 'app/scss'),
         loader: 'style-loader!css-loader!sass-loader'
         // use: [
         //   {
@@ -49,8 +48,13 @@ module.exports = {
       }
     }),
 
-    new ExtractTextPlugin({
-      filename: "[name].[contenthash].css"
-    })
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      include: /\.min\.js$/,
+      minimize: true,
+      comments: false
+    }),
   ]
 };
