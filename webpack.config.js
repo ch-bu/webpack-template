@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: './app/js/index.js',
@@ -19,14 +20,37 @@ module.exports = {
           babelrc: false,
           presets: ['es2017']
         }
+      },
+      {
+        test: /\.scss$/,
+        // include: path.resolve(__dirname, 'app/scss'),
+        loader: 'style-loader!css-loader!sass-loader'
+        // use: [
+        //   {
+        //     loader: "style-loader"
+        //   }, {
+        //     loader: "css-loader"
+        //   }, {
+        //     loader: "sass-loader",
+        //     options: {
+        //       includePaths: ["./app/scss"]
+        //     }
+        //   }
+        // ]
       }
     ]
   },
-  plugins: [new HtmlWebpackPlugin({
-    template: './app/index.html',
-    // https://github.com/kangax/html-minifier#options-quick-reference
-    minify: {
-      collapseWhitespace: true
-    }
-  })]
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './app/index.html',
+      // https://github.com/kangax/html-minifier#options-quick-reference
+      minify: {
+        collapseWhitespace: true
+      }
+    }),
+
+    new ExtractTextPlugin({
+      filename: "[name].[contenthash].css"
+    })
+  ]
 };
